@@ -1,0 +1,33 @@
+# ============================================
+# Auto-Trade MT5 Robot — Python Dependencies
+# ============================================
+# Install: pip install -r requirements.txt
+#
+# Python 3.10+ recommended.
+# MetaTrader5 requires the MT5 terminal to be installed.
+
+# --- Core Trading ---
+MetaTrader5>=5.0.5735
+
+# --- Data Processing ---
+pandas>=2.0.0
+numpy>=1.24.0
+duckdb>=1.0.0
+
+# --- Optimization ---
+optuna>=4.0.0
+
+# --- GUI (Desktop) ---
+customtkinter>=5.2.0
+
+# --- Timezone & Scheduling ---
+pytz>=2024.0
+
+# --- News / HTTP ---
+requests>=2.31.0
+urllib3>=2.0.0
+
+# ============================================
+# Development (optional)
+# ============================================
+# pytest>=9.0.0       # Unit tests

@@ -1,0 +1,126 @@
+{
+    "GBPJPY": [
+        {
+            "strategy": "C",
+            "sl_points": 220,
+            "tp_points": 270,
+            "oos_net_profit": 1584.8,
+            "oos_profit_factor": 1.04,
+            "is_net_profit": 11840.6,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "XAUUSD": [
+        {
+            "strategy": "A",
+            "sl_points": 100,
+            "tp_points": 400,
+            "oos_net_profit": 1166.2,
+            "oos_profit_factor": 3.27,
+            "is_net_profit": 2655.8,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "EURJPY": [
+        {
+            "strategy": "C",
+            "sl_points": 220,
+            "tp_points": 340,
+            "oos_net_profit": 502.4,
+            "oos_profit_factor": 1.02,
+            "is_net_profit": 8861.0,
+            "updated_at": "2026-06-13 19:57:37"
+        },
+        {
+            "strategy": "D",
+            "sl_points": 170,
+            "tp_points": 400,
+            "oos_net_profit": 107.8,
+            "oos_profit_factor": 1.01,
+            "is_net_profit": 2230.4,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "USDCHF": [
+        {
+            "strategy": "C",
+            "sl_points": 250,
+            "tp_points": 260,
+            "oos_net_profit": 440.7,
+            "oos_profit_factor": 1.04,
+            "is_net_profit": 57.2,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "USDJPY": [
+        {
+            "strategy": "D",
+            "sl_points": 240,
+            "tp_points": 380,
+            "oos_net_profit": 326.0,
+            "oos_profit_factor": 1.02,
+            "is_net_profit": 5576.6,
+            "updated_at": "2026-06-13 19:57:37"
+        },
+        {
+            "strategy": "A",
+            "sl_points": 220,
+            "tp_points": 230,
+            "oos_net_profit": 245.4,
+            "oos_profit_factor": 1.22,
+            "is_net_profit": 689.2,
+            "updated_at": "2026-06-13 19:57:37"
+        },
+        {
+            "strategy": "C",
+            "sl_points": 190,
+            "tp_points": 310,
+            "oos_net_profit": 219.0,
+            "oos_profit_factor": 1.01,
+            "is_net_profit": 8265.4,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "AUDUSD": [
+        {
+            "strategy": "C",
+            "sl_points": 170,
+            "tp_points": 310,
+            "oos_net_profit": 252.9,
+            "oos_profit_factor": 1.02,
+            "is_net_profit": 1266.6,
+            "updated_at": "2026-06-13 19:57:37"
+        },
+        {
+            "strategy": "A",
+            "sl_points": 190,
+            "tp_points": 150,
+            "oos_net_profit": 57.0,
+            "oos_profit_factor": 1.1,
+            "is_net_profit": 308.6,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "USDCAD": [
+        {
+            "strategy": "C",
+            "sl_points": 240,
+            "tp_points": 180,
+            "oos_net_profit": 241.6,
+            "oos_profit_factor": 1.02,
+            "is_net_profit": 3043.8,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ],
+    "EURUSD": [
+        {
+            "strategy": "B",
+            "sl_points": 230,
+            "tp_points": 360,
+            "oos_net_profit": 186.4,
+            "oos_profit_factor": 1.02,
+            "is_net_profit": 1157.2,
+            "updated_at": "2026-06-13 19:57:37"
+        }
+    ]
+}
