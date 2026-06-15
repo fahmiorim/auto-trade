@@ -14,7 +14,7 @@ from src import executor
 
 # Configure logging framework
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger("main")
@@ -239,23 +239,28 @@ def process_symbol(symbol: str, session: str):
     # Ambil sesi aktif dan gunakan strategi + SL/TP khusus sesi itu
     strat_name = config.get_session_strategy(symbol, session)
     if strat_name is None:
-        return  # Pair tidak aktif / tidak PASSED di sesi ini
+        logger.debug(f"[{session}] {symbol}: Tidak ada strategi untuk sesi ini — skip.")
+        return
 
     # Cek apakah pair ini eligible di sesi aktif
     eligible = config.cfg.SESSION_ELIGIBLE_PAIRS.get(session, config.cfg.SYMBOLS)
     if symbol not in eligible:
+        logger.debug(f"[{session}] {symbol}: Tidak eligible di sesi ini — skip.")
         return
 
     active_pos = executor.get_active_positions(symbol)
     if len(active_pos) > 0:
+        logger.debug(f"[{session}] {symbol}: Posisi aktif ditemukan ({len(active_pos)}) — skip entri baru.")
         return
 
     if news_filter.is_news_blocked(symbol):
+        logger.info(f"[{session}] {symbol}: Diblokir oleh news filter — skip.")
         return
 
     # Fetch 2500 baris agar strategi dapat menghitung EMA 2400 untuk trend H1
     df_m5 = data_fetcher.fetch_history(symbol, config.cfg.TIMEFRAME_M5, 2500)
     if df_m5.empty:
+        logger.warning(f"[{session}] {symbol}: Data M5 kosong — gagal fetch history.")
         return
         
     df_m1 = pd.DataFrame()
@@ -265,6 +270,7 @@ def process_symbol(symbol: str, session: str):
         # Metode A butuh M1 history
         df_m1 = data_fetcher.fetch_history(symbol, config.cfg.TIMEFRAME_M1, 250)
         if df_m1.empty:
+            logger.warning(f"[{session}] {symbol}: Data M1 kosong — gagal fetch history (Strat A).")
             return
 
     # Tentukan waktu candle closed pemicu transaksi untuk mencegah double entry
@@ -275,6 +281,7 @@ def process_symbol(symbol: str, session: str):
 
     key = (symbol, strat_name)
     if last_trade_candle_times.get(key) == candle_time:
+        logger.debug(f"[{session}] {symbol}: Sudah trade di candle ini — skip double entry.")
         return
     
     if strat_name == "A":
@@ -288,6 +295,8 @@ def process_symbol(symbol: str, session: str):
     elif strat_name == "E":
         signal = strategies.strategy_e_hma_rsi(df_m5)
 
+    if signal == 0:
+        logger.debug(f"[{session}] {symbol}: Tidak ada sinyal (Strategi {strat_name}) — scan ulang.")
     if signal != 0:
         logger.info(f"Sinyal Terdeteksi | Simbol: {symbol}, Arah: {'BUY' if signal == 1 else 'SELL'} (Strategi {strat_name})")
         
@@ -377,8 +386,10 @@ def main():
     gui_stop_signal = False
 
     try:
+        heartbeat_count = 0
         while not gui_stop_signal:
             try:
+                heartbeat_count += 1
                 # 1. Kelola active positions (Trailing SL ke BE jika profit >= 10 pips)
                 check_active_positions_for_be()
                 
@@ -439,6 +450,15 @@ def main():
                             logger.info("Transisi antar sesi — standby sebentar.")
             except Exception as e:
                 logger.error(f"Error pada loop utama: {e}")
+                
+            # Heartbeat setiap ~60 detik (4 iterasi x ~15 detik)
+            if heartbeat_count % 4 == 0:
+                account = mt5.account_info()
+                bal = account.balance if account else 0
+                positions = executor.get_active_positions()
+                logger.info(f"[Heartbeat] Iterasi #{heartbeat_count} | "
+                            f"Saldo: ${bal:,.2f} | "
+                            f"Posisi aktif: {len(positions)}")
                 
             # Sleep 15 detik yang responsif terhadap stop signal
             for _ in range(150):
